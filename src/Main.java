@@ -1,7 +1,8 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+
+static public class Main {
     void main() {
         String castle = "\uD83C\uDFF0";
         int step = 0;
