@@ -4,7 +4,7 @@ import java.util.Random;
 public class Person {
 
     private int x, y;
-    private String image = "\uD83E\uDDD9";
+    private String image = "\uD83C\uDFC3";
     private int live = 5;
 
     Person(int sizeBoard) {

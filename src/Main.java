@@ -1,56 +1,74 @@
 
-import java.util.Random;
-import java.util.Scanner;
+public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    Random random = new Random();
 
-public class Main {
+    String castle = "\uD83D\uDCCD";
+    int step = 0;
 
-    public static void main(String[] args) {
+    System.out.println("Привет! Ты готов начать игру? (ДА или НЕТ)");
 
-        String castle = "\uD83C\uDFF0";
-        int step = 0;
-        int sizeBoard = 5;
+    String answer = sc.nextLine().trim();
 
-        Person person = new Person(sizeBoard);
+    if (answer.equalsIgnoreCase("НЕТ")) {
+        System.out.println("Жаль, приходи еще!");
+        sc.close();
+        return;
+    }
 
-        Random random = new Random();
-        int castleX = 1 + random.nextInt(sizeBoard);
-        int castleY = 1;
+    if (!answer.equalsIgnoreCase("ДА")) {
+        System.out.println("Данные введены некорректно!");
+        sc.close();
+        return;
+    }
 
-        String[][] board = new String[sizeBoard][sizeBoard];
+    System.out.println("Выбери сложность игры (от 1 до 5)");
 
-        for (int y = 1; y <= sizeBoard; y++) {
-            for (int x = 1; x <= sizeBoard; x++) {
-                board[y - 1][x - 1] = "  ";
-            }
+    int difficulty = sc.nextInt();
+
+    if (difficulty < 1 || difficulty > 5) {
+        System.out.println("Некорректная сложность!");
+        sc.close();
+        return;
+    }
+
+    int sizeBoard;
+
+    switch (difficulty) {
+        case 1: sizeBoard = 5; break;
+        case 2: sizeBoard = 8; break;
+        case 3: sizeBoard = 11; break;
+        case 4: sizeBoard = 14; break;
+        case 5: sizeBoard = 20; break;
+        default: sizeBoard = 5;
+    }
+
+    System.out.println("РАЗМЕР ДОСКИ: " + sizeBoard + "x" + sizeBoard);
+
+    System.out.println("Заказ принят. Обратно пути нет.");
+    System.out.println("Район доставки находится под контролем противника.");
+
+    Person person = new Person(sizeBoard);
+
+    int castleX = 1 + random.nextInt(sizeBoard);
+    int castleY = 1;
+
+    String[][] board = new String[sizeBoard][sizeBoard];
+
+    for (int y = 0; y < sizeBoard; y++) {
+        for (int x = 0; x < sizeBoard; x++) {
+            board[y][x] = "  ";
         }
+    }
 
-        Scanner sc = new Scanner(System.in);
         Monster.setScanner(sc);
 
-        System.out.println("Привет! Ты готов начать игру? (Напиши: ДА или НЕТ)");
-
-        String answer = sc.nextLine();
-
-        System.out.println("Ваш ответ:\t" + answer);
 
         int countMonster = sizeBoard * sizeBoard - sizeBoard - 1;
         Monster[] monsters = new Monster[countMonster];
 
         int count = 0;
-        int monsterCount = 0;
-
-        System.out.println("Выбери сложность игры (от 1 до 5)");
-
-        int difficulty = sc.nextInt();
-
-        if (difficulty < 1 || difficulty > 5) {
-            System.out.println("Некорректная сложность!");
-            return;
-        }
-
-        System.out.println("Выбранная сложность:\t" + difficulty);
-
-        monsterCount = Math.min(sizeBoard * difficulty, countMonster);
+        int monsterCount = Math.min(sizeBoard * difficulty, countMonster);
 
         while (count < monsterCount) {
 
@@ -65,17 +83,20 @@ public class Main {
             int row = monster.getY() - 1;
             int column = monster.getX() - 1;
 
-            if (board[row][column].equals("  ")) {
+            if (board[row][column].equals("  ")
+                    && !(monster.getY() == castleY
+                    && monster.getX() == castleX)) {
 
-                board[row][column] = monster.getImage();
-
+                board[row][column] = monster.getImage() + " ";
                 monsters[count] = monster;
-
                 count++;
             }
         }
 
         board[castleY - 1][castleX - 1] = castle;
+
+        System.out.println("Внимание! В районе замечены военные патрули.");
+        System.out.println("Нужно добраться до точки доставки.");
 
         switch (answer.toUpperCase()) {
 
@@ -96,10 +117,8 @@ public class Main {
                     int x = sc.nextInt();
                     int y = sc.nextInt();
 
-                    System.out.println(x + " " + y);
-
-                    if (x < 1 || x > sizeBoard ||
-                            y < 1 || y > sizeBoard) {
+                    if (x < 1 || x > sizeBoard
+                            || y < 1 || y > sizeBoard) {
 
                         System.out.println("Координаты находятся за пределами поля!");
                         continue;
@@ -109,7 +128,9 @@ public class Main {
 
                         if (board[y - 1][x - 1].equals(castle)) {
 
-                            System.out.println("Вы прошли игру!");
+                            System.out.println("ДОСТАВКА ВЫПОЛНЕНА!");
+                            System.out.println("Клиент даже не вышел встретить курьера.");
+                            System.out.println("Поздравляем! Ты выжил.");
                             break;
 
                         } else if (board[y - 1][x - 1].equals("  ")) {
@@ -132,6 +153,12 @@ public class Main {
 
                                 if (monster != null &&
                                         monster.conflicktPersonIMonster(x, y)) {
+                                    
+                                    if (monster instanceof BigMonster) {
+                                        System.out.println("Осторожно! На пути гвардеец!");
+                                    } else {
+                                        System.out.println("Впереди вражеский патруль!");
+                                    }
 
                                     if (monster.taskMonster(difficulty)) {
 
@@ -141,11 +168,16 @@ public class Main {
 
                                         monsters[i] = null;
 
+                                        System.out.println("Противник устранён. Путь свободен.");
+
                                         step++;
 
                                     } else {
 
                                         person.downLive();
+
+                                        System.out.println("Ты потерял одну жизнь!");
+                                        System.out.println("Доставка становится всё рискованнее...");
 
                                         System.out.println("Ты потерял одну жизнь!");
                                     }
@@ -181,28 +213,27 @@ public class Main {
 
         sc.close();
     }
-
     static void outputBoard(String[][] board, int live) {
 
-        String leftBlock = " | ";
-        String rightBlock = " |";
-        String wall = " + —— + —— + —— + —— + —— + ";
+        StringBuilder wall = new StringBuilder("+");
+
+        for (int i = 0; i < board[0].length; i++) {
+            wall.append("----+");
+        }
+
+        String wallLine = wall.toString();
 
         for (String[] row : board) {
 
-            System.out.println(wall);
+            System.out.println(wallLine);
 
             for (String cell : row) {
-
-                System.out.print(leftBlock);
-                System.out.print(cell);
+                System.out.print("| " + cell + " ");
             }
 
-            System.out.println(rightBlock);
+            System.out.println("|");
         }
 
-        System.out.println(wall);
-
+        System.out.println(wallLine);
         System.out.println("Количество жизней:\t" + live);
     }
-}

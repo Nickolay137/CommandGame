@@ -5,40 +5,32 @@ public class BigMonster extends Monster {
 
     BigMonster(int sizeBoard) {
         super(sizeBoard);
-        setImage("\uD83D\uDC79");
+        setImage("\uD83D\uDC82");
     }
+    
+@Override
+public boolean taskMonster(int sloznostIgri) {
 
-    @Override
-    public boolean taskMonster(int sloznostIgri) {
+    System.out.println("Реши простое задание: ");
 
-        System.out.println("Большой монстр предлагает задание!");
-        System.out.println("Реши задачу:");
+    Random random = new Random();
 
-        Random random = new Random();
+    int x = 100 * sloznostIgri + random.nextInt(900 * sloznostIgri);
+    int y = 2 + random.nextInt(5);
+    int z = 2 + random.nextInt(sloznostIgri + 1);
 
-        int minX = 1;
-        int maxX = 10 * sloznostIgri;
+    long trueAnswer = (long) (x * Math.pow(y, z));
 
-        int x = random.nextInt(maxX) + minX;
+    System.out.println(x + " * (" + y + " ^ " + z + ") = ?");
 
-        int y = 2 + random.nextInt(4);
+    int ans = scanner.nextInt();
 
-        int z = 1 + random.nextInt(sloznostIgri + 1);
-
-        long trueAnswer = (long) (x * Math.pow(y, z));
-
-        System.out.println("Пример: " + x + " * (" + y + " ^ " + z + ")");
-
-        int ans = scanner.nextInt();
-
-        if (trueAnswer == ans) {
-            System.out.println("Всё верно! Большой монстр побеждён!");
-            return true;
-        } else {
-            System.out.println("Неправильно! Правильный ответ: "
-                    + trueAnswer);
-            return false;
-        }
+    if (trueAnswer == ans) {
+        System.out.println("ПРавльно");
+        return true;
+    } else {
+        System.out.println("Правильный ответ: " + trueAnswer);
+        return false;
     }
 }
-
+}
