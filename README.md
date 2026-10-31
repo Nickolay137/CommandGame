@@ -27,7 +27,9 @@
 Открой терминал в папке `src` и выполни:
 
 bash
+
 javac -encoding UTF-8 Main.java Person.java Monster.java BigMonster.java
+
 java Main
 
 
