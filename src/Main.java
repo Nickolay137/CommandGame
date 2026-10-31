@@ -62,7 +62,6 @@ public class Main {
                 monsterCount--;
             } else {
                 monster = new BigMonster(sizeBoard);
-                monsterCount--;
             }
 
 
@@ -73,6 +72,7 @@ public class Main {
                 board[row][column] = monster.getImage();
                 monsters[count] = monster;
                 count++;
+                monsterCount--;
             }
         }
 
