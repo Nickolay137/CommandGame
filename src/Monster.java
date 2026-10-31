@@ -1,7 +1,8 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Monster {
+
+static public class Monster {
     private String image = "\uD83E\uDDDF";
     private int x, y;
 
@@ -33,7 +34,8 @@ public class Monster {
         return personX == x && personY == y;
     }
 
-    public boolean taskMonster(int sloznostIgri) {
+    
+static public boolean taskMonster(int sloznostIgri) {
         if (sloznostIgri == 1) {
             int a = random.nextInt(10 ^ sloznostIgri);
             int b = random.nextInt(10 ^ sloznostIgri);
