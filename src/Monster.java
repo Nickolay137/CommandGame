@@ -2,14 +2,26 @@ import java.util.Random;
 import java.util.Scanner;
 
 
-static public class Monster {
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class Monster {
+
     private String image = "\uD83E\uDDDF";
     private int x, y;
 
+    protected static Scanner scanner;
+
     Monster(int sizeBoard) {
         Random random = new Random();
+
         x = 1 + random.nextInt(sizeBoard);
         y = 1 + random.nextInt(sizeBoard - 1);
+    }
+
+    public static void setScanner(Scanner input) {
+        scanner = input;
     }
 
     public int getX() {
@@ -28,11 +40,34 @@ static public class Monster {
         this.image = image;
     }
 
-    Random random = new Random();
-
     public boolean conflicktPersonIMonster(int personX, int personY) {
         return personX == x && personY == y;
     }
+
+    public boolean taskMonster(int sloznostIgri) {
+
+        Random random = new Random();
+
+        int a = random.nextInt(10);
+        int b = random.nextInt(10);
+
+        int trueAnswer = a + b;
+
+        System.out.println("Реши пример: " + a + " + " + b);
+
+        int ans = scanner.nextInt();
+
+        if (ans == trueAnswer) {
+            System.out.println("Ты победил монстра!");
+            return true;
+        } else {
+            System.out.println("Неправильно! Правильный ответ: "
+                    + trueAnswer);
+            return false;
+        }
+    }
+}
+
 
     
 static public boolean taskMonster(int sloznostIgri) {
