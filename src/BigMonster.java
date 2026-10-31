@@ -1,21 +1,31 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class BigMonster extends Monster{
+
+static public class BigMonster extends Monster{
     BigMonster(int sizeBoard){
         super(sizeBoard);
         setImage("\uD83D\udc79");}
         @Override
-        public boolean taskMonster (int sloznostIgri){
+        static public boolean taskMonster (int sloznostIgri){
             if (sloznostIgri == 1){
                 return taskMonster();
             }else{
                 System.out.println("Зеши задачу:");
 
                 Random random = new Random();
-                int x = random.nextInt(10 * (sloznostIgri), 20 * sloznostIgri);
-                int y = random.nextInt(30 * (sloznostIgri), 40 * sloznostIgri);
-                int z = random.nextInt(100 * (sloznostIgri), 1000 * sloznostIgri);
+                int minX = 10 * sloznostIgri;
+                int maxX = 20 * sloznostIgri;
+                int x = random.nextInt(maxX - minX) + minX;
+                
+                int minY = 10 * sloznostIgri;
+                int maxY = 20 * sloznostIgri;
+                int y = random.nextInt(maxX - minX) + minX;
+
+                int minZ = 10 * sloznostIgri;
+                int maxZ = 20 * sloznostIgri;
+                int z = random.nextInt(maxX - minX) + minX;
+
                 long trueAnswer = x * (y ^ z);
                 System.out.println("Пример: " + x + " * (" + y + " ^ " + z + ")");
                 Scanner sc = new Scanner(System.in);
@@ -30,7 +40,8 @@ public class BigMonster extends Monster{
                 }
             }
         }
-        public boolean taskMonster(){
+        
+    static public boolean taskMonster(){
             return super.taskMonster(1);
     }
 }
