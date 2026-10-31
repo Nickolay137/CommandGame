@@ -1,6 +1,7 @@
 import java.util.Random;
 
-public class Person {
+
+static public class Person {
     private int x,y;
     private String image = "\uD83E\uDDD9";
     private int live = 5;
@@ -35,7 +36,8 @@ public class Person {
     }
 
 
-    public boolean isMoveCorrect(int x, int y){
+    
+    static public boolean isMoveCorrect(int x, int y){
         return this.x == x && Math.abs(this.y - y) == 1 || this.y == y && Math.abs(this.x - x) == 1;
     }
     void move(int newX, int newY){
