@@ -176,7 +176,6 @@ public static void main(String[] args) {
 
                                         person.downLive();
 
-                                        System.out.println("Ты потерял одну жизнь!");
                                         System.out.println("Доставка становится всё рискованнее...");
 
                                         System.out.println("Ты потерял одну жизнь!");
